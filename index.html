@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechSynapse 2026 — National Level Hackathon</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00f5ff;
+    --magenta: #ff00c8;
+    --gold: #ffd700;
+    --dark: #020818;
+    --darker: #010510;
+    --card-bg: rgba(0,245,255,0.04);
+    --border: rgba(0,245,255,0.18);
+    --text: #c8e8ff;
+    --glow-cyan: 0 0 20px rgba(0,245,255,0.5), 0 0 40px rgba(0,245,255,0.2);
+    --glow-mag: 0 0 20px rgba(255,0,200,0.5), 0 0 40px rgba(255,0,200,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--darker);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor { position:fixed; width:12px; height:12px; background:var(--cyan); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.1s, width 0.2s, height 0.2s; box-shadow: var(--glow-cyan); }
+  .cursor-ring { position:fixed; width:36px; height:36px; border:1px solid var(--cyan); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform 0.15s ease, left 0.08s, top 0.08s; opacity:0.5; }
+
+  /* Grid background */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  section, nav, footer { position: relative; z-index: 1; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 16px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(2,8,24,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Orbitron', monospace; font-size: 1.1rem; color: var(--cyan); letter-spacing: 3px; text-shadow: var(--glow-cyan); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--text); text-decoration: none; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--cyan); text-shadow: var(--glow-cyan); }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 100px 40px 60px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg-orb {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    filter: blur(80px); opacity: 0.15;
+  }
+  .orb1 { width: 600px; height: 600px; background: var(--cyan); top: -100px; left: -200px; animation: float1 8s ease-in-out infinite; }
+  .orb2 { width: 500px; height: 500px; background: var(--magenta); bottom: -100px; right: -150px; animation: float2 10s ease-in-out infinite; }
+  .orb3 { width: 300px; height: 300px; background: var(--gold); top: 40%; left: 50%; transform: translate(-50%,-50%); animation: float1 6s ease-in-out infinite reverse; }
+
+  @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
+  @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(30px)} }
+
+  .college-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid var(--border); border-radius: 40px;
+    padding: 8px 20px; margin-bottom: 28px;
+    font-size: 0.78rem; letter-spacing: 2px; color: var(--cyan);
+    background: rgba(0,245,255,0.05);
+    animation: fadeDown 1s ease both;
+  }
+  .college-badge span { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; display:inline-block; animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 6px;
+    background: linear-gradient(135deg, var(--cyan) 0%, #fff 40%, var(--magenta) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: fadeDown 1s 0.2s ease both;
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-title::after {
+    content: 'TECHSYNAPSE';
+    position: absolute; top: 0; left: 0;
+    white-space: nowrap;
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    letter-spacing: 6px;
+    background: linear-gradient(135deg, var(--cyan) 0%, #fff 40%, var(--magenta) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    filter: blur(20px); opacity: 0.4;
+    z-index: -1;
+  }
+
+  .hero-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem; letter-spacing: 6px;
+    color: var(--gold); margin: 16px 0 8px;
+    animation: fadeDown 1s 0.4s ease both;
+    text-transform: uppercase;
+  }
+  .hero-desc {
+    font-size: 1.3rem; letter-spacing: 3px; color: var(--text); opacity: 0.7;
+    animation: fadeDown 1s 0.5s ease both; margin-bottom: 40px; text-transform: uppercase;
+  }
+
+  .hero-stats {
+    display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+    animation: fadeDown 1s 0.6s ease both; margin-bottom: 48px;
+  }
+  .stat-card {
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 32px; background: var(--card-bg);
+    backdrop-filter: blur(10px); text-align: center;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .stat-card:hover { transform: translateY(-4px); box-shadow: var(--glow-cyan); }
+  .stat-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,245,255,0.06),transparent); pointer-events:none; }
+  .stat-num { font-family:'Orbitron',monospace; font-size:2rem; font-weight:900; color:var(--cyan); }
+  .stat-label { font-size:0.75rem; letter-spacing:2px; color:var(--text); opacity:0.6; text-transform:uppercase; margin-top:4px; }
+
+  .prize-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    color: #000; font-family: 'Orbitron', monospace;
+    font-size: 1.4rem; font-weight: 900;
+    padding: 16px 40px; border-radius: 50px;
+    letter-spacing: 2px;
+    box-shadow: 0 0 40px rgba(255,215,0,0.5), 0 0 80px rgba(255,215,0,0.2);
+    animation: fadeDown 1s 0.7s ease both, prize-pulse 3s ease-in-out infinite;
+    position: relative;
+  }
+  @keyframes prize-pulse { 0%,100%{box-shadow:0 0 40px rgba(255,215,0,0.5),0 0 80px rgba(255,215,0,0.2)} 50%{box-shadow:0 0 60px rgba(255,215,0,0.8),0 0 120px rgba(255,215,0,0.4)} }
+
+  .hero-dates {
+    margin-top: 24px; font-size:0.9rem; letter-spacing:3px; opacity:0.6;
+    animation: fadeDown 1s 0.8s ease both;
+  }
+  .hero-dates strong { color: var(--cyan); }
+
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ===== SECTIONS SHARED ===== */
+  .section { padding: 100px 40px; max-width: 1300px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 5px; color: var(--magenta);
+    text-transform: uppercase; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--magenta),transparent); }
+  .section-title {
+    font-family: 'Orbitron', monospace; font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 700;
+    color: #fff; margin-bottom: 60px; line-height: 1.2;
+  }
+  .section-title span { color: var(--cyan); }
+
+  /* ===== THEMES ===== */
+  #themes { background: linear-gradient(180deg, transparent 0%, rgba(0,245,255,0.02) 50%, transparent 100%); }
+
+  .themes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .theme-card {
+    border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px; background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .theme-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .theme-card:hover { transform:translateY(-6px); border-color:rgba(0,245,255,0.4); box-shadow:0 20px 60px rgba(0,245,255,0.1); }
+  .theme-card:hover::before { opacity:1; }
+  .theme-icon { font-size:2rem; margin-bottom:14px; }
+  .theme-name { font-family:'Orbitron',monospace; font-size:1rem; font-weight:700; color:var(--cyan); margin-bottom:12px; letter-spacing:1px; }
+  .theme-items { list-style:none; }
+  .theme-items li { font-size:0.88rem; color:var(--text); opacity:0.75; padding:4px 0; padding-left:16px; position:relative; line-height:1.4; }
+  .theme-items li::before { content:'▸'; position:absolute; left:0; color:var(--magenta); font-size:0.7rem; top:6px; }
+
+  /* ===== PATRONS ===== */
+  #patrons {
+    background: linear-gradient(180deg, transparent 0%, rgba(255,0,200,0.03) 50%, transparent 100%);
+  }
+  .patrons-grid { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .patron-card {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 16px; text-align: center;
+    animation: fadeIn 0.8s ease both;
+  }
+
+  .patron-img-wrapper {
+    position: relative; width: 160px; height: 160px;
+    cursor: pointer;
+  }
+  .patron-img-wrapper.small { width: 130px; height: 130px; }
+
+  .patron-ring {
+    position: absolute; inset: -4px; border-radius: 50%;
+    background: conic-gradient(var(--cyan), var(--magenta), var(--gold), var(--cyan));
+    animation: spin 6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .patron-ring-inner {
+    position: absolute; inset: 2px; border-radius: 50%;
+    background: var(--darker);
+  }
+
+  .patron-img {
+    position: absolute; inset: 6px; border-radius: 50%;
+    width: calc(100% - 12px); height: calc(100% - 12px);
+    object-fit: cover; object-position: center;
+    z-index: 2;
+    background: rgba(0,245,255,0.05);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .patron-img img { width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+
+  .upload-overlay {
+    position: absolute; inset: 6px; border-radius: 50%;
+    background: rgba(0,0,0,0.7); z-index: 3;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+    cursor: pointer;
+  }
+  .patron-img-wrapper:hover .upload-overlay { opacity: 1; }
+  .upload-overlay svg { width: 28px; height: 28px; color: var(--cyan); }
+  .upload-overlay span { font-size: 0.65rem; letter-spacing: 1px; color: var(--cyan); margin-top: 4px; }
+
+  .patron-name { font-family:'Orbitron',monospace; font-size:0.85rem; font-weight:700; color:#fff; letter-spacing:1px; }
+  .patron-title { font-size:0.78rem; color:var(--cyan); opacity:0.8; letter-spacing:1px; }
+
+  /* Divider between chief patrons and patrons */
+  .patrons-divider {
+    width: 100%; height: 1px; background: linear-gradient(90deg,transparent,var(--border),transparent);
+    margin: 60px 0;
+  }
+
+  .sub-heading {
+    font-family: 'Orbitron', monospace; font-size: 1.1rem; color: var(--gold);
+    letter-spacing: 3px; text-align: center; margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  /* ===== COORDINATORS ===== */
+  #coordinators { }
+  .coord-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 900px; margin: 0 auto; }
+  .coord-group-title {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; letter-spacing: 4px;
+    color: var(--magenta); text-transform: uppercase; margin-bottom: 24px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .coord-item { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .coord-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--magenta));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', monospace; font-size: 0.75rem; font-weight: 700; color: #000;
+    flex-shrink: 0;
+  }
+  .coord-info { flex: 1; }
+  .coord-name { font-weight: 700; font-size: 0.95rem; color: #fff; }
+  .coord-phone { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: var(--cyan); opacity: 0.7; margin-top: 2px; }
+
+  /* ===== REGISTER ===== */
+  #register {
+    text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(0,245,255,0.03) 50%, transparent);
+  }
+  .register-card {
+    display: inline-block;
+    border: 1px solid var(--border); border-radius: 24px;
+    padding: 60px 80px; background: var(--card-bg);
+    backdrop-filter: blur(20px); position: relative; overflow: hidden;
+  }
+  .register-card::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(circle at 50% 0%, rgba(0,245,255,0.08), transparent 60%);
+    pointer-events:none;
+  }
+  .reg-info { display: flex; gap: 48px; justify-content: center; margin: 32px 0; flex-wrap: wrap; }
+  .reg-item { text-align: center; }
+  .reg-label { font-size: 0.72rem; letter-spacing: 3px; color: var(--text); opacity: 0.5; text-transform: uppercase; margin-bottom: 6px; }
+  .reg-value { font-family: 'Orbitron', monospace; font-size: 1.1rem; color: var(--cyan); font-weight: 700; }
+  .btn-register {
+    display: inline-block; margin-top: 16px;
+    background: linear-gradient(135deg, var(--cyan), var(--magenta));
+    color: #000; font-family: 'Orbitron', monospace; font-weight: 700;
+    font-size: 0.9rem; letter-spacing: 3px; text-decoration: none;
+    padding: 18px 56px; border-radius: 50px; text-transform: uppercase;
+    box-shadow: 0 0 40px rgba(0,245,255,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: none;
+  }
+  .btn-register:hover { transform: scale(1.06); box-shadow: 0 0 60px rgba(0,245,255,0.5); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    border-top: 1px solid var(--border); padding: 40px;
+    text-align: center; font-size: 0.78rem; letter-spacing: 2px;
+    color: var(--text); opacity: 0.4;
+  }
+  footer span { color: var(--cyan); opacity: 1; }
+
+  /* ===== SCAN LINE ===== */
+  body::after {
+    content:'';
+    position:fixed; top:0; left:0; right:0; height:3px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    animation: scanline 4s linear infinite; opacity:0.3;
+    pointer-events:none; z-index:999;
+  }
+  @keyframes scanline { from{top:0} to{top:100vh} }
+
+  /* Responsive */
+  @media(max-width:768px) {
+    nav { padding:14px 20px; }
+    .nav-links { gap:16px; }
+    .section { padding:60px 20px; }
+    .coord-grid { grid-template-columns:1fr; gap:32px; }
+    .register-card { padding:40px 24px; }
+    .hero-stats { gap:20px; }
+  }
+
+  /* Scroll fade in */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">TECHSYNAPSE</div>
+  <ul class="nav-links">
+    <li><a href="#themes">Themes</a></li>
+    <li><a href="#patrons">Patrons</a></li>
+    <li><a href="#coordinators">Team</a></li>
+    <li><a href="#register">Register</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-orb orb1"></div>
+  <div class="hero-bg-orb orb2"></div>
+  <div class="hero-bg-orb orb3"></div>
+
+  <div class="college-badge">
+    <span></span>
+    Geethanjali College of Engineering &amp; Technology &nbsp;·&nbsp; UGC Autonomous
+    <span></span>
+  </div>
+
+  <div class="hero-title">TECHSYNAPSE</div>
+  <div class="hero-sub">24 HOUR</div>
+  <div class="hero-desc">National Level Hackathon</div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-num">24H</div>
+      <div class="stat-label">Non-Stop Hacking</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Themes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">2–4</div>
+      <div class="stat-label">Per Team</div>
+    </div>
+  </div>
+
+  <div class="prize-badge">🏆 4 LAKH+ PRIZE POOL</div>
+
+  <div class="hero-dates">
+    <strong>16th &amp; 17th March 2026</strong> &nbsp;·&nbsp; Geethanjali College of Engineering and Technology &nbsp;·&nbsp; Registration closes <strong>14th March 2026</strong>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section id="themes">
+  <div class="section">
+    <div class="section-label">Hackathon Domains</div>
+    <div class="section-title">Explore the <span>Themes</span></div>
+    <div class="themes-grid reveal">
+
+      <div class="theme-card">
+        <div class="theme-icon">🧠</div>
+        <div class="theme-name">NexGen Innovators</div>
+        <ul class="theme-items">
+          <li>Health Care</li>
+          <li>FinTech</li>
+          <li>Education &amp; Productivity AI</li>
+          <li>AI for Social Media &amp; Content Intelligence</li>
+          <li>Enterprise Automation &amp; GenAI Systems</li>
+          <li>Cybersecurity — Capture The Flag</li>
+        </ul>
+        <div style="margin-top:14px;font-size:0.72rem;color:var(--gold);font-style:italic;opacity:0.8;">Problem statements released at Bootcamp — 15th March 2026</div>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-icon">🏗️</div>
+        <div class="theme-name">BuildFuture</div>
+        <ul class="theme-items">
+          <li>Bridge Design and Structural Innovation Challenge</li>
+        </ul>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-icon">⚡</div>
+        <div class="theme-name">TechBridge</div>
+        <ul class="theme-items">
+          <li>Smart Health Care Systems</li>
+          <li>Agritech Solutions</li>
+        </ul>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-icon">🏭</div>
+        <div class="theme-name">Smart Manufacturing</div>
+        <ul class="theme-items">
+          <li>Innovative Design, 3D Printing and Sustainable Manufacturing</li>
+        </ul>
+      </div>
+
+      <div class="theme-card">
+        <div class="theme-icon">🌿</div>
+        <div class="theme-name">GreenAmp</div>
+        <ul class="theme-items">
+          <li>Sustainable Energy &amp; Smart Solar Solutions</li>
+          <li>Electric Mobility &amp; Green Transportation</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CHIEF PATRONS & PATRONS -->
+<section id="patrons">
+  <div class="section">
+    <div class="section-label">Leadership</div>
+    <div class="section-title">Chief Patrons &amp; <span>Patrons</span></div>
+
+    <!-- CHIEF PATRONS -->
+    <div class="sub-heading">⭐ Chief Patrons</div>
+    <div class="patrons-grid reveal" id="chiefPatronsGrid">
+
+      <div class="patron-card">
+        <div class="patron-img-wrapper" onclick="triggerUpload('cp1')">
+          <div class="patron-ring"></div>
+          <div class="patron-ring-inner"></div>
+          <div class="patron-img" id="cp1-img">
+            <img id="cp1-photo" src="" alt="" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="rgba(0,245,255,0.3)" stroke-width="1" id="cp1-placeholder"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="upload-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <span>UPLOAD</span>
+          </div>
+        </div>
+        <input type="file" id="cp1-input" accept="image/*" style="display:none" onchange="handleUpload(this,'cp1')">
+        <div class="patron-name">Chief Patron 1</div>
+        <div class="patron-title">Chairman / President</div>
+      </div>
+
+      <div class="patron-card">
+        <div class="patron-img-wrapper" onclick="triggerUpload('cp2')">
+          <div class="patron-ring"></div>
+          <div class="patron-ring-inner"></div>
+          <div class="patron-img" id="cp2-img">
+            <img id="cp2-photo" src="" alt="" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="rgba(0,245,255,0.3)" stroke-width="1" id="cp2-placeholder"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="upload-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <span>UPLOAD</span>
+          </div>
+        </div>
+        <input type="file" id="cp2-input" accept="image/*" style="display:none" onchange="handleUpload(this,'cp2')">
+        <div class="patron-name">Chief Patron 2</div>
+        <div class="patron-title">Secretary / Correspondent</div>
+      </div>
+
+    </div>
+
+    <div class="patrons-divider"></div>
+
+    <!-- PATRONS -->
+    <div class="sub-heading">🎖️ Patrons</div>
+    <div class="patrons-grid reveal" id="patronsGrid">
+
+      <div class="patron-card">
+        <div class="patron-img-wrapper small" onclick="triggerUpload('p1')">
+          <div class="patron-ring"></div>
+          <div class="patron-ring-inner"></div>
+          <div class="patron-img" id="p1-img">
+            <img id="p1-photo" src="" alt="" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="none" viewBox="0 0 24 24" stroke="rgba(0,245,255,0.3)" stroke-width="1" id="p1-placeholder"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="upload-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <span>UPLOAD</span>
+          </div>
+        </div>
+        <input type="file" id="p1-input" accept="image/*" style="display:none" onchange="handleUpload(this,'p1')">
+        <div class="patron-name">Patron 1</div>
+        <div class="patron-title">Principal</div>
+      </div>
+
+      <div class="patron-card">
+        <div class="patron-img-wrapper small" onclick="triggerUpload('p2')">
+          <div class="patron-ring"></div>
+          <div class="patron-ring-inner"></div>
+          <div class="patron-img" id="p2-img">
+            <img id="p2-photo" src="" alt="" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="none" viewBox="0 0 24 24" stroke="rgba(0,245,255,0.3)" stroke-width="1" id="p2-placeholder"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="upload-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <span>UPLOAD</span>
+          </div>
+        </div>
+        <input type="file" id="p2-input" accept="image/*" style="display:none" onchange="handleUpload(this,'p2')">
+        <div class="patron-name">Patron 2</div>
+        <div class="patron-title">Vice Principal</div>
+      </div>
+
+      <div class="patron-card">
+        <div class="patron-img-wrapper small" onclick="triggerUpload('p3')">
+          <div class="patron-ring"></div>
+          <div class="patron-ring-inner"></div>
+          <div class="patron-img" id="p3-img">
+            <img id="p3-photo" src="" alt="" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="none" viewBox="0 0 24 24" stroke="rgba(0,245,255,0.3)" stroke-width="1" id="p3-placeholder"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="upload-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            <span>UPLOAD</span>
+          </div>
+        </div>
+        <input type="file" id="p3-input" accept="image/*" style="display:none" onchange="handleUpload(this,'p3')">
+        <div class="patron-name">Patron 3</div>
+        <div class="patron-title">HOD — CSE</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COORDINATORS -->
+<section id="coordinators">
+  <div class="section">
+    <div class="section-label">Organizers</div>
+    <div class="section-title">Meet the <span>Team</span></div>
+    <div class="coord-grid reveal">
+      <div>
+        <div class="coord-group-title">Faculty Coordinators</div>
+        <div class="coord-item">
+          <div class="coord-avatar">BA</div>
+          <div class="coord-info">
+            <div class="coord-name">Dr. B. Adithya</div>
+            <div class="coord-phone">+91 9489667470</div>
+          </div>
+        </div>
+        <div class="coord-item">
+          <div class="coord-avatar">MK</div>
+          <div class="coord-info">
+            <div class="coord-name">Ms. M. Keerthi</div>
+            <div class="coord-phone">+91 9089496999</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="coord-group-title">Student Coordinators</div>
+        <div class="coord-item">
+          <div class="coord-avatar" style="background:linear-gradient(135deg,var(--gold),#ff6b00)">SH</div>
+          <div class="coord-info">
+            <div class="coord-name">Shashank</div>
+            <div class="coord-phone">+91 8700045868</div>
+          </div>
+        </div>
+        <div class="coord-item">
+          <div class="coord-avatar" style="background:linear-gradient(135deg,var(--gold),#ff6b00)">NW</div>
+          <div class="coord-info">
+            <div class="coord-name">Nawaz</div>
+            <div class="coord-phone">+91 8309407465</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+  <div class="section" style="text-align:center">
+    <div class="section-label" style="justify-content:center">Join the Mission</div>
+    <div class="section-title">Ready to <span>Hack?</span></div>
+    <div class="register-card reveal">
+      <div class="reg-info">
+        <div class="reg-item">
+          <div class="reg-label">Registration Fee</div>
+          <div class="reg-value">₹400 / head</div>
+        </div>
+        <div class="reg-item">
+          <div class="reg-label">Team Size</div>
+          <div class="reg-value">2 – 4 members</div>
+        </div>
+        <div class="reg-item">
+          <div class="reg-label">Deadline</div>
+          <div class="reg-value">14 March 2026</div>
+        </div>
+        <div class="reg-item">
+          <div class="reg-label">Event Date</div>
+          <div class="reg-value">16–17 March 2026</div>
+        </div>
+      </div>
+      <a href="#" class="btn-register">Register Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Geethanjali College of Engineering and Technology &nbsp;·&nbsp; <span>TechSynapse 2026</span></p>
+  <p style="margin-top:8px;">Cheeryal (V), Keesara (M), Medchal-Malkajgiri (D), Telangana — 501301</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+  });
+  function animRing(){
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Image upload
+  function triggerUpload(id){
+    document.getElementById(id+'-input').click();
+  }
+
+  function handleUpload(input, id){
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const photo = document.getElementById(id+'-photo');
+      const placeholder = document.getElementById(id+'-placeholder');
+      photo.src = e.target.result;
+      photo.style.display = 'block';
+      if(placeholder) placeholder.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+</script>
+</body>
+</html>
