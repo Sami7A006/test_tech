@@ -267,7 +267,40 @@
   }
   .btn-register:hover { transform:scale(1.05); box-shadow:0 0 50px rgba(0,229,255,0.5); }
 
-  /* FOOTER */
+  .btn-ps {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 2px solid var(--primary); border-radius: 50px;
+    padding: 14px 36px;
+    color: var(--primary); text-decoration: none;
+    font-family: 'Orbitron', monospace; font-weight: 700;
+    font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase;
+    background: var(--primary-dim); backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(0,229,255,0.2), inset 0 0 20px rgba(0,229,255,0.05);
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .btn-ps::before {
+    content: ''; position: absolute; inset: 0; border-radius: 50px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.08), transparent);
+    transform: translateX(-100%); transition: transform 0.5s;
+  }
+  .btn-ps:hover::before { transform: translateX(100%); }
+  .btn-ps:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 40px rgba(0,229,255,0.45), inset 0 0 30px rgba(0,229,255,0.1);
+    background: rgba(0,229,255,0.18);
+  }
+  .btn-ps-icon { font-size: 1.1rem; }
+  .btn-ps-arrow {
+    font-size: 1rem; transition: transform 0.3s;
+    display: inline-block;
+  }
+  .btn-ps:hover .btn-ps-arrow { transform: translateX(4px); }
+
+  @media(max-width:480px) {
+    .btn-ps { font-size:0.7rem; padding:11px 22px; gap:7px; letter-spacing:1px; }
+  }
+
   footer {
     border-top:1px solid var(--primary-border); padding:32px 5%;
     text-align:center; font-size:0.72rem; letter-spacing:2px; opacity:0.4;
@@ -425,6 +458,7 @@
     <li><a href="#patrons">Patrons</a></li>
     <li><a href="#coordinators">Team</a></li>
     <li><a href="#register">Register</a></li>
+    <li><a href="https://problemstatements.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:var(--primary);border:1px solid var(--primary-border);padding:5px 12px;border-radius:20px;background:var(--primary-dim);">Problems&nbsp;⏱</a></li>
   </ul>
 </nav>
 
@@ -451,6 +485,14 @@
   </div>
 
   <div class="prize-badge">🏆 4 LAKH+ PRIZE POOL</div>
+
+  <div style="margin-top:28px;animation:fd 0.8s 0.75s ease both;">
+    <a href="https://problemstatements.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-ps">
+      <span class="btn-ps-icon">📋</span>
+      <span>Problem Statements &amp; Timer</span>
+      <span class="btn-ps-arrow">→</span>
+    </a>
+  </div>
 
   <div class="hero-dates">
     <strong>16th &amp; 17th March 2026</strong> &nbsp;·&nbsp; Geethanjali College &nbsp;·&nbsp; Register by <strong>14th March 2026</strong>
